@@ -1,0 +1,15 @@
+# general purpose
+ipykernel
+
+# ML toolbox 
+numpy
+matplotlib
+seaborn
+pandas
+
+# Statistics
+scipy
+
+# Machine learning
+scikit-learn
+-e .
