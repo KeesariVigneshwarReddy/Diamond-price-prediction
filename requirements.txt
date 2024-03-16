@@ -11,5 +11,9 @@ pandas
 scipy
 
 # Machine learning
+imblearn
 scikit-learn
--e .
+
+# Deep learning
+
+# NLP 
