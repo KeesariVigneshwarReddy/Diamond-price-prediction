@@ -1,43 +1,33 @@
 import os
 import sys
 import copy
-import pandas as pd
-import numpy as np
-import scipy.stats as stats
-from scipy.stats import spearmanr, skew, kurtosis
-from imblearn.over_sampling import RandomOverSampler, SMOTE
-from sklearn.impute import SimpleImputer
-from sklearn.model_selection import train_test_split
-from sklearn.feature_selection import VarianceThreshold
-from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder, normalize
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-import joblib
 import warnings
 warnings.filterwarnings('ignore')
+from dataclasses import dataclass
 
 from src.Exception import CustomException
 from src.Logger import logging
-import os
 
-from dataclasses import dataclass
+import pandas as pd
+import numpy as np
+from imblearn.over_sampling import RandomOverSampler, SMOTE
 
 @dataclass
 class ResamplerConfig :
     
-    X_resampled_data_path : str = os.path.join(r"C:/ML Projects/Diamond Price Prediction/Artifacts/Modular intermediate datasets", "06_X_resampled.csv")
-    y_resampled_data_path : str = os.path.join(r"C:/ML Projects/Diamond Price Prediction/Artifacts/Modular intermediate datasets", "07_X_resampled.csv")
+    X_resampled_data_path : str = os.path.join(r"C:/ML Projects/Diamond Price Prediction/Artifacts/Modular intermediate datasets", "X_resampled.csv")
+    y_resampled_data_path : str = os.path.join(r"C:/ML Projects/Diamond Price Prediction/Artifacts/Modular intermediate datasets", "y_resampled.csv")
 
 class Resampler :
     def __init__(self):
         self.resampler_config = ResamplerConfig()
 
-    def initiate_resampler(self, X_imputed_data_path, y_data_path) :
-        logging.info("Entered the data transformation component")
+    def initiate_resampler(self, X_data_path, y_data_path) :
+        logging.info("Entered the Resampler component")
         try :
             
-            # Load X_imputed and y
-            X = pd.read_csv(X_imputed_data_path)
+            # Load X and y
+            X = pd.read_csv(X_data_path)
             y = pd.read_csv(y_data_path)
             logging.info('Read X_imputed and y as dataframe')
 
@@ -59,7 +49,7 @@ class Resampler :
                 if imbalance_ratios.get(key) <= threshold :
                     classes_tobe_upsampled.append(key)
 
-            # Detrmine the sampling strategy and apply SMOTE
+            # Determine the sampling strategy and apply SMOTE
             sampling_strategy = {}
             for key, value in sampling_strategy_ratio.items() :
                 sampling_strategy[key] = int(highest_frequency_count * value)
@@ -71,15 +61,15 @@ class Resampler :
             X_resampled.to_csv(self.resampler_config.X_resampled_data_path, index = False, header = True)
             y_resampled.to_csv(self.resampler_config.y_resampled_data_path, index = False, header = True)
 
-            logging.info('Resampler has done its job')
+            logging.info('Resampling is completed')
 
             return (
                         self.resampler_config.X_resampled_data_path,
-                        self.resampler_config.y_resampled_y_data_path
+                        self.resampler_config.y_resampled_data_path
                     )
             
         except Exception as e:
             logging.info("Exception occured in the initiate_resampler")
 
-            raise CustomException(e,sys)
+            raise CustomException(e, sys)
         

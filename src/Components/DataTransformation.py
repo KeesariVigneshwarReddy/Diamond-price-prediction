@@ -73,35 +73,6 @@ class DataTransformation :
         
     def get_feature_scaler_encoder_object(self, num_columns, cat_columns, cat_nominal_columns, cat_ordinal_columns, cat_target_ordinal_columns, cut_cat, color_cat, clarity_cat) :
         try :
-            num_scaler_pipeline = Pipeline(steps = [
-                                                ('std_scaler', StandardScaler())
-                                                #('min_max_scaler', MinMaxScaler())
-                                                   ]
-                                          )
-            """ The unit vector scaling
-            X_train_normalized = normalize(X_train[num_columns])
-            X_val_normalized = normalize(X_val[num_columns])
-            X_train[num_columns] = pd.DataFrame(X_train_normalized, columns = num_columns)
-            X_val[num_columns] = pd.DataFrame(X_val_normalized, columns = num_columns)
-            """
-            """
-            cat_nominal_encoder_pipeline = Pipeline(steps = [
-                                                        ('OH_encoder', OneHotEncoder())
-                                                            ]
-                                                    )
-            """
-            cat_ordinal_encoder_pipeline = Pipeline(steps = [
-                                                                ('ordinalencoder', OrdinalEncoder(categories = [cut_cat, color_cat, clarity_cat])), # order should be same as in dataframe
-                                                                ('scaler', StandardScaler())
-                                                                # target guided encoding
-                                                            ]
-                                                    )
-
-            feature_scaler_encoder = ColumnTransformer([
-                                                            ('num_pipeline', num_scaler_pipeline, num_columns), 
-                                                            #('cat_nominal_pipeline', cat_nominal_encoder_pipeline, cat_nominal_columns),
-                                                            ('cat_ordinal_pipeline', cat_ordinal_encoder_pipeline, cat_ordinal_columns)  
-                                                    ])
             
             return feature_scaler_encoder
         
