@@ -17,3 +17,6 @@ scikit-learn
 # Deep learning
 
 # NLP 
+
+# Web frameworks
+flask

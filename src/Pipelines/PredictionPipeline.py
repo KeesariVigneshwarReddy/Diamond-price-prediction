@@ -11,7 +11,6 @@ class PredictionPipeline:
 
     def predict(self, features) :
         try :
-            print(features)
             X_test = pd.read_csv(r"C:/ML Projects/Diamond Price Prediction/Artifacts/Modular intermediate datasets/X_test.csv")
 
             # imputing
@@ -20,7 +19,6 @@ class PredictionPipeline:
             features_imputed = pd.DataFrame(imputer.transform(features), columns = imputer.get_feature_names_out())
             features_imputed.columns = [col.split('_')[-1] for col in features_imputed.columns]
             features = features_imputed
-            print(features)
             
             # Categorical encoding
             categorical_encoder_obj_file_path : str = os.path.join(r"C:/ML Projects/Diamond Price Prediction/Artifacts/Models/Transform models", "categorical_encoder.pkl")
@@ -30,14 +28,9 @@ class PredictionPipeline:
             features.drop(columns = features_categorical_encoded.columns, axis = 1, inplace = True)
             features_categorical_encoded = pd.concat([features, features_categorical_encoded], axis = 1)
             features = features_categorical_encoded
-            
-            print(features)
-            print(features.columns)
 
             # Eliminating some features
             features = features[X_test.columns]
-            print(features)
-            print(features.columns)
 
             # Numerical scaling
             numerical_scaler_obj_file_path : str = os.path.join(r"C:/ML Projects/Diamond Price Prediction/Artifacts/Models/Transform models", "numerical_encoder.pkl")
@@ -45,9 +38,6 @@ class PredictionPipeline:
             features_numerical_scaled = pd.DataFrame(numerical_scaler.transform(features), columns = numerical_scaler.get_feature_names_out())
             features_numerical_scaled.columns = [col.split('_')[-1] for col in features_numerical_scaled.columns]
             features = features_numerical_scaled
-
-            print(features)
-            print(features.columns)
 
             # Feed it to model
             best_model_obj_file_path : str = os.path.join(r"C:/ML Projects/Diamond Price Prediction/Artifacts/Models/Machine Learning models", "best_model.pkl")
