@@ -5,15 +5,11 @@ from src.Pipelines.PredictionPipeline import CustomData, PredictionPipeline
 app=Flask(__name__)
 
 
-@app.route('/')
-def home_page():
-    return render_template('index.html')
-
-@app.route('/predict',methods=['GET','POST'])
+@app.route('/',methods=['GET','POST'])
 
 def predict_datapoint():
     if request.method=='GET':
-        return render_template('form.html')
+        return render_template('index.html')
     
     else:
         data = CustomData(
@@ -33,7 +29,8 @@ def predict_datapoint():
 
         results = round(pred, 2)
 
-        return render_template('form.html',final_result = results)
+
+        return render_template('index.html',final_result = results)
 
 if __name__=="__main__":
     app.run(host = '0.0.0.0')
